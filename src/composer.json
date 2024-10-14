@@ -61,5 +61,8 @@
         "flex://defaults"
       ]
     }
+  },
+  "require-dev": {
+    "buggregator/trap": "^1.11"
   }
 }
