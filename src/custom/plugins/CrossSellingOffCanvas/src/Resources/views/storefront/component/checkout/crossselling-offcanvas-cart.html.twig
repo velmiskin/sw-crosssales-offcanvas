@@ -1,0 +1,22 @@
+{% extends '@Storefront/storefront/component/checkout/offcanvas-cart.html.twig' %}
+
+{% block component_offcanvas_cart_header %}
+{% endblock %}
+
+{% block component_offcanvas_cart_items %}
+    <div class="offcanvas-cart-items">
+        {% set lineItem = page.cart.lineItems.last %}
+        {% block component_offcanvas_cart_item %}
+            {% sw_include '@Storefront/storefront/component/line-item/line-item.html.twig' with {
+                displayMode: 'offcanvas',
+                redirectTo: 'frontend.cart.offcanvas'
+            } %}
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block component_offcanvas_summary %}
+{% endblock %}
+
+{% block component_offcanvas_cart_actions_promotion %}
+{% endblock %}

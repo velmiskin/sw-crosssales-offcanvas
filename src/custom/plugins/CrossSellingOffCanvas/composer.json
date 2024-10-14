@@ -1,0 +1,30 @@
+{
+  "name": "cross-selling-off-canvas/cross-selling-off-canvas",
+  "description": "cross-selling-off-canvas/cross-selling-off-canvas",
+  "type": "shopware-platform-plugin",
+  "version": "1.0.0",
+  "license": "MIT",
+  "require": {
+    "shopware/core": "~6.6.0"
+  },
+  "replace": {
+    "shopware/core": "~6.6.0"
+  },
+  "extra": {
+    "shopware-plugin-class": "CrossSellingOffCanvas\\CrossSellingOffCanvas",
+    "label": {
+      "de-DE": "Skeleton plugin",
+      "en-GB": "Skeleton plugin"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "CrossSellingOffCanvas\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CrossSellingOffCanvas\\Tests\\": "tests/"
+    }
+  }
+}
