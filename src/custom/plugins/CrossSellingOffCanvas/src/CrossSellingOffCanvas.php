@@ -2,7 +2,7 @@
 
 namespace CrossSellingOffCanvas;
 
-use CrossSellingOffCanvas\Service\CustomFieldsInstaller;
+use CrossSellingOffCanvas\Service\CustomFieldsManager;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
@@ -20,7 +20,7 @@ class CrossSellingOffCanvas extends Plugin
     {
         // Do stuff such as creating a new payment method
 
-        $this->getCustomFieldsInstaller()->install($installContext->getContext());
+        $this->getCustomFieldsManager()->install($installContext->getContext());
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
@@ -32,6 +32,7 @@ class CrossSellingOffCanvas extends Plugin
         }
 
         // Remove or deactivate the data created by the plugin
+        $this->removeCustomField($uninstallContext);
     }
 
     public function activate(ActivateContext $activateContext): void
@@ -39,7 +40,7 @@ class CrossSellingOffCanvas extends Plugin
         // Activate entities, such as a new payment method
         // Or create new entities here, because now your plugin is installed and active for sure
 
-        $this->getCustomFieldsInstaller()->addRelations($activateContext->getContext());
+        $this->getCustomFieldsManager()->addRelations($activateContext->getContext());
     }
 
     public function deactivate(DeactivateContext $deactivateContext): void
@@ -61,13 +62,13 @@ class CrossSellingOffCanvas extends Plugin
     {
     }
 
-    private function getCustomFieldsInstaller(): CustomFieldsInstaller
+    private function getCustomFieldsManager(): CustomFieldsManager
     {
-        if ($this->container->has(CustomFieldsInstaller::class)) {
-            return $this->container->get(CustomFieldsInstaller::class);
+        if ($this->container->has(CustomFieldsManager::class)) {
+            return $this->container->get(CustomFieldsManager::class);
         }
 
-        return new CustomFieldsInstaller(
+        return new CustomFieldsManager(
             $this->container->get('custom_field_set.repository'),
             $this->container->get('custom_field_set_relation.repository')
         );

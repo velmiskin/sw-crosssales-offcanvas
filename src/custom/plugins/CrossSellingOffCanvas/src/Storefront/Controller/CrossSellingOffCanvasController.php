@@ -2,6 +2,7 @@
 
 namespace CrossSellingOffCanvas\Storefront\Controller;
 
+use CrossSellingOffCanvas\Service\CrossSellingResolver;
 use Shopware\Core\Checkout\Cart\Error\ErrorCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Storefront\Checkout\Cart\Error\PaymentMethodChangedError;
@@ -17,8 +18,10 @@ class CrossSellingOffCanvasController extends StorefrontController
 {
     private const REDIRECTED_FROM_SAME_ROUTE = 'redirected';
 
-    public function __construct(private readonly OffcanvasCartPageLoader $offcanvasCartPageLoader)
-    {
+    public function __construct(
+        private readonly OffcanvasCartPageLoader $offcanvasCartPageLoader,
+        private readonly CrossSellingResolver $crossSellingResolver
+    ) {
     }
 
     #[Route(path: '/checkout/offcanvas-crossselling', name: 'frontend.cart.offcanvas.crossselling', options: ['seo' => false], defaults: ['XmlHttpRequest' => true], methods: ['GET'])]
@@ -41,6 +44,15 @@ class CrossSellingOffCanvasController extends StorefrontController
         }
 
         $cartErrors->clear();
+
+        $lastLineItemId = $cart->getLineItems()->last()?->getId();
+
+        $crossSellings = $lastLineItemId !== null ? $this->crossSellingResolver->getProductPrefferedCrossSellings(
+            $lastLineItemId,
+            $context->getContext()
+        ) : null;
+
+        trap($crossSellings);
 
         return $this->renderStorefront('@CrossSellingOffCanvas/storefront/component/checkout/crossselling-offcanvas-cart.html.twig', ['page' => $page]);
     }

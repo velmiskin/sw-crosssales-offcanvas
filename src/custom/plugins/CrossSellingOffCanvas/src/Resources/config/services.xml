@@ -5,9 +5,14 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="CrossSellingOffCanvas\Service\CrossSellingResolver">
+            <argument type="service" id="product.repository"/>
+        </service>
+
         <service id="CrossSellingOffCanvas\Storefront\Controller\CrossSellingOffCanvasController"
                  public="true">
             <argument type="service" id="Shopware\Storefront\Page\Checkout\Offcanvas\OffcanvasCartPageLoader"/>
+            <argument type="service" id="CrossSellingOffCanvas\Service\CrossSellingResolver"/>
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>
